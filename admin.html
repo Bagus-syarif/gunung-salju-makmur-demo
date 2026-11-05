@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gunung Salju Makmur | Admin</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="admin">
+  <div id="loginPage" class="login-page">
+    <div class="login-card">
+      <img src="logo-gunung-salju-makmur-clean.png" class="login-logo" alt="Gunung Salju Makmur">
+      <h1>Login Admin</h1>
+      <p>Masuk untuk mengelola data pesanan dan produk.</p>
+      <form id="loginForm">
+        <label>Username<input id="adminUser" type="text" required></label>
+        <label>Password<input id="adminPass" type="password" required></label>
+        <button class="btn btn-primary btn-full" type="submit">Masuk</button>
+        <div id="loginError" class="error-text"></div>
+      </form>
+    </div>
+  </div>
+
+  <div id="adminApp" class="admin-app hidden">
+    <aside class="sidebar">
+      <div class="sidebar-brand"><img src="logo-gunung-salju-makmur-clean.png" alt="Gunung Salju Makmur"></div>
+      <div class="admin-label">ADMIN</div>
+      <nav class="side-nav">
+        <a class="side-link active" href="#dashboard" data-section="dashboard">Dashboard</a>
+        <a class="side-link" href="#orders" data-section="orders">Order</a>
+        <a class="side-link" href="#products" data-section="products">Data Produk</a>
+        <a class="side-link" href="#reports" data-section="reports">Laporan</a>
+        <a class="side-link" href="#notifications" data-section="notifications">Notifikasi <span id="notifCount" class="count">0</span></a>
+      </nav>
+      <button id="logoutBtn" class="logout-btn">Keluar</button>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-header">
+        <div><span class="eyebrow">SISTEM PEMESANAN</span><h1 id="pageTitle">Dashboard</h1></div>
+        <div class="header-actions"><button id="browserNotifBtn" class="btn btn-outline">Aktifkan Notifikasi</button><button id="bellBtn" class="icon-btn">🔔<span id="bellDot"></span></button></div>
+      </header>
+
+      <section id="dashboardSection" class="admin-section">
+        <div class="dashboard-welcome">
+          <div class="dashboard-welcome-text">
+            <span class="eyebrow">GUNUNG SALJU MAKMUR</span>
+            <h2>Dashboard Admin</h2>
+            <p>Kelola pesanan, produk, dan pantau perkembangan penjualan dengan lebih mudah.</p>
+          </div>
+          <img src="logo-gunung-salju-makmur-clean.png" alt="Logo Gunung Salju Makmur">
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card"><span>Total Pesanan</span><strong id="statOrders">0</strong></div>
+          <div class="stat-card"><span>Diproses</span><strong id="statProcess">0</strong></div>
+          <div class="stat-card"><span>Dikirim</span><strong id="statShipping">0</strong></div>
+          <div class="stat-card"><span>Selesai</span><strong id="statDone">0</strong></div>
+        </div>
+        <div class="panel"><div class="panel-heading"><div><h2>Pesanan Terbaru</h2><p>Data order yang masuk dari halaman pelanggan.</p></div><button class="btn btn-outline" data-go="orders">Lihat Semua</button></div><div id="recentOrders"></div></div>
+      </section>
+
+      <section id="ordersSection" class="admin-section hidden">
+        <div class="panel"><div class="panel-heading"><div><h2>Data Pesanan</h2><p>Edit, ubah status, atau batalkan pesanan.</p></div><button id="exportBtn" class="btn btn-primary">Export Excel</button></div><div class="table-wrap"><table><thead><tr><th>No.</th><th>Tanggal</th><th>Pelanggan</th><th>Produk</th><th>Jumlah</th><th>Pembayaran</th><th>Total</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="ordersTable"></tbody></table></div></div>
+      </section>
+
+      <section id="productsSection" class="admin-section hidden">
+        <div class="panel"><div class="panel-heading"><div><h2>Data Produk</h2><p>Tambah produk baru yang tersedia untuk pelanggan.</p></div><button id="addProductBtn" class="btn btn-primary">+ Tambah Produk</button></div><div class="table-wrap"><table><thead><tr><th>No.</th><th>Produk</th><th>Harga</th><th>Keterangan</th><th>Aksi</th></tr></thead><tbody id="productsTable"></tbody></table></div></div>
+      </section>
+
+      <section id="reportsSection" class="admin-section hidden">
+        <div class="report-filter panel">
+          <div class="panel-heading">
+            <div><h2>Laporan Penjualan</h2><p>Ringkasan penjualan dan jumlah pesanan berdasarkan tanggal.</p></div>
+            <button id="resetReportBtn" class="btn btn-outline" type="button">Reset</button>
+          </div>
+          <div class="report-date-filter">
+            <label>Dari tanggal<input id="reportStartDate" type="date"></label>
+            <label>Sampai tanggal<input id="reportEndDate" type="date"></label>
+            <button id="applyReportBtn" class="btn btn-primary" type="button">Tampilkan Laporan</button>
+          </div>
+        </div>
+
+        <div class="report-stat-grid">
+          <div class="report-stat-card"><span>Total Penjualan</span><strong id="reportSales">Rp0</strong><small>Akumulasi pesanan pada periode</small></div>
+          <div class="report-stat-card"><span>Jumlah Pesanan</span><strong id="reportOrders">0</strong><small>Total transaksi pada periode</small></div>
+          <div class="report-stat-card"><span>Total Es Cup</span><strong id="reportCups">0</strong><small>Jumlah cup yang dipesan</small></div>
+          <div class="report-stat-card"><span>Pesanan Selesai</span><strong id="reportDone">0</strong><small>Pesanan berstatus selesai</small></div>
+        </div>
+
+        <div class="report-grid">
+          <div class="panel report-panel"><div class="panel-heading"><div><h2>Grafik Penjualan</h2><p>Total penjualan per tanggal.</p></div></div><div id="salesChart" class="report-chart"></div></div>
+          <div class="panel report-panel"><div class="panel-heading"><div><h2>Jumlah Pesanan</h2><p>Jumlah transaksi per tanggal.</p></div></div><div id="ordersChart" class="report-chart"></div></div>
+        </div>
+
+        <div class="panel"><div class="panel-heading"><div><h2>Rincian Laporan</h2><p>Data ringkas berdasarkan tanggal.</p></div></div><div class="table-wrap"><table class="report-table"><thead><tr><th>Tanggal</th><th>Jumlah Pesanan</th><th>Total Cup</th><th>Total Penjualan</th></tr></thead><tbody id="reportTable"></tbody></table></div></div>
+      </section>
+
+      <section id="notificationsSection" class="admin-section hidden">
+        <div class="panel"><div class="panel-heading"><div><h2>Notifikasi</h2><p>Riwayat pemberitahuan dari sistem.</p></div><button id="readAllBtn" class="btn btn-outline">Tandai Dibaca</button></div><div id="notificationList"></div></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="orderModal" class="modal hidden"><div class="modal-card"><div class="modal-head"><h2>Edit Pesanan</h2><button class="close-btn" data-close="orderModal">×</button></div><form id="editOrderForm"><input id="editOrderId" type="hidden"><div class="field-grid"><label>Nama Pelanggan<input id="editName" required></label><label>No. WhatsApp<input id="editPhone" required></label></div><label>Produk<select id="editProduct"></select></label><label>Jumlah (cup)<input id="editQty" type="number" min="1" required></label><label>Alamat<textarea id="editAddress" rows="3" required></textarea></label><label>Pembayaran<select id="editPayment"><option>Transfer</option><option>COD</option><option>Term of Credit</option></select></label><label>Status<select id="editStatus" required><option value="" selected disabled>Pilih status akhir</option><option value="Selesai">Selesai</option><option value="Dibatalkan">Dibatalkan</option></select></label><div class="modal-actions"><button type="button" class="btn btn-outline" data-close="orderModal">Batal</button><button class="btn btn-primary" type="submit">Simpan Perubahan</button></div></form></div></div>
+
+  <div id="productModal" class="modal hidden"><div class="modal-card small"><div class="modal-head"><h2>Tambah Produk</h2><button class="close-btn" data-close="productModal">×</button></div><form id="productForm"><label>Nama Produk<input id="newProductName" placeholder="Contoh: Es Cup Jumbo" required></label><label>Harga<input id="newProductPrice" type="number" min="0" placeholder="10000" required></label><label>Keterangan<textarea id="newProductDesc" rows="3" placeholder="Keterangan produk"></textarea></label><div class="modal-actions"><button type="button" class="btn btn-outline" data-close="productModal">Batal</button><button class="btn btn-primary" type="submit">Simpan Produk</button></div></form></div></div>
+ 
+  <div id="editProductModal" class="modal hidden">
+    <div class="modal-card small">
+        <div class="modal-head">
+            <h2>Edit Produk</h2>
+            <button class="close-btn" data-close="editProductModal">×</button>
+        </div>
+
+        <form id="editProductForm">
+            <input type="hidden" id="editProductId">
+
+            <label>
+                Nama Produk
+                <input id="editProductName" required>
+            </label>
+
+            <label>
+                Harga
+                <input id="editProductPrice" type="number" min="0" required>
+            </label>
+
+            <label>
+                Keterangan
+                <textarea id="editProductDesc" rows="3"></textarea>
+            </label>
+
+            <div class="modal-actions">
+                <button type="button" class="btn btn-outline"
+                    data-close="editProductModal">Batal</button>
+
+                <button class="btn btn-primary" type="submit">
+                    Simpan Perubahan
+                </button>
+            </div>
+        </form>
+    </div>
+  </div>
+
+
+  <div id="toast" class="toast"></div>
+  <script src="js/data.js"></script>
+  <script src="js/notification.js"></script>
+  <script src="js/customer.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+</body>
+</html>
