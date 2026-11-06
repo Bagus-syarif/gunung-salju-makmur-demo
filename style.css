@@ -1267,3 +1267,22 @@ body[data-page="customer"] .order-product-visual img {
 @media (max-width: 650px) {
   body[data-page="customer"] .mini-product-visual img { min-height: 165px; }
 }
+
+/* === gambar produk tanpa kotak biru === */
+body[data-page="customer"] .hero-product-scene.hero-product-photo{
+  height:500px;background:radial-gradient(ellipse 52% 46% at 50% 56%,rgba(255,255,255,.95) 0%,rgba(222,242,249,.7) 50%,rgba(222,242,249,0) 100%);
+}
+body[data-page="customer"] .hero-product-display{position:relative}
+body[data-page="customer"] .hero-product-display:after{content:"";position:absolute;left:30%;right:30%;bottom:15%;height:26px;border-radius:50%;background:rgba(21,80,105,.16);filter:blur(12px);z-index:1}
+body[data-page="customer"] .hero-cup-image{
+  width:min(54%,330px);max-height:none;mix-blend-mode:normal;-webkit-mask-image:none;mask-image:none;border-radius:0;
+  filter:drop-shadow(0 18px 14px rgba(21,80,105,.16));position:relative;z-index:2}
+body[data-page="customer"] .mini-product-visual,
+body[data-page="customer"] .order-product-visual{
+  background:radial-gradient(ellipse 62% 56% at 50% 58%,#e3f3f9 0%,rgba(227,243,249,0) 100%);padding:14px}
+body[data-page="customer"] .mini-product-visual img,
+body[data-page="customer"] .order-product-visual img{
+  object-fit:contain;filter:drop-shadow(0 10px 8px rgba(21,80,105,.15))}
+body[data-page="customer"] .order-product-visual{overflow:visible;display:grid;place-items:center}
+body[data-page="customer"] .order-product-visual img{width:auto!important;height:auto!important;max-width:80%;max-height:165px;object-fit:contain!important}
+body[data-page="customer"] .mini-product-visual img{width:auto!important;height:auto!important;max-width:88%;max-height:200px;object-fit:contain!important;min-height:0!important}

@@ -269,14 +269,7 @@ function startCustomerOrderAutoRefresh() {
 function bindOrderFlow() {
     $("customerDataForm")?.addEventListener("submit", saveCustomerData);
 
-    const button = $("confirmOrderBtn");
-
-    console.log("Tombol ditemukan:", button);
-
-    button?.addEventListener("click", () => {
-        console.log("TOMBOL KONFIRMASI DIKLIK!");
-        confirmCustomerOrder();
-    });
+    $("confirmOrderBtn")?.addEventListener("click", confirmCustomerOrder);
 
     document.querySelectorAll("[data-order-back]").forEach((button) => {
         button.addEventListener("click", () => {
